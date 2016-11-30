@@ -289,7 +289,7 @@ var PlaylistsExporter = {
 var PlaylistExporter = {
   export: function(access_token, playlist) {
     this.kglData(access_token, playlist).then(function(data) {
-      var blob = new Blob(["\uFEFF" + data], { type: "text/xml;charset=utf-8" });
+      var blob = new Blob(["\uFEFF" + data], { type: "text/kgl;charset=utf-8" });
       saveAs(blob, this.fileName(playlist, 'kgl'));
     }.bind(this))
   },
@@ -376,9 +376,27 @@ var PlaylistExporter = {
     })
   },
 
+  // Ref: https://github.com/parshap/node-sanitize-filename
+  _sanitize: function(input, replacement) {
+    var illegalRe = /[\/\?<>\\:\*\|":]/g;
+    var controlRe = /[\x00-\x1f\x80-\x9f]/g;
+    var reservedRe = /^\.+$/;
+    var windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+    var windowsTrailingRe = /[\. ]+$/;
+
+    replacement = replacement || ''
+
+    return input
+    .replace(illegalRe, replacement)
+    .replace(controlRe, replacement)
+    .replace(reservedRe, replacement)
+    .replace(windowsReservedRe, replacement)
+    .replace(windowsTrailingRe, replacement);
+  },
+
   fileName: function(playlist, ext) {
     ext = ext || 'csv'
-    return playlist.name.replace(/[^a-z0-9\- ]/gi, '').replace(/[ ]/gi, '_').toLowerCase() + '.' + ext
+    return this._sanitize(playlist.name) + '.' + ext
   }
 }
 
