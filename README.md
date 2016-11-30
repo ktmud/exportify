@@ -1,6 +1,23 @@
-[![Build Status](http://img.shields.io/travis/watsonbox/exportify.svg?style=flat)](https://travis-ci.org/watsonbox/exportify)
+[![Build Status](http://img.shields.io/travis/ktmud/exportify.svg?style=flat)](https://travis-ci.org/ktmud/exportify)
 
-<a href="https://rawgit.com/watsonbox/exportify/master/exportify.html"><img src="screenshot.png"/></a>
+<a href="https://rawgit.com/ktmud/exportify/master/exportify.html"><img src="screenshot.png"/></a>
+
+## Exportify to 163 // 导出 Spotify 歌单到网易云音乐
+
+导出 Spotify 歌单为酷狗音乐列表格式，以导入网易云音乐。
+
+本应用直接修改于 [Exportify](https://github.com/watsonbox/Exportify) 应用。
+
+操作说明：
+
+1. 登录并连接 Spotify
+2. 下载歌单文件
+3. 登录网页版网易云音乐（music.163.com），在右上角菜单找到「导入歌单」
+4. 在「导入酷狗播放列表」页面上传刚才下载的歌单文件
+
+----
+
+## The Original Readme of "Exportify"
 
 Export your Spotify playlists using the Web API by clicking on the link below:
 

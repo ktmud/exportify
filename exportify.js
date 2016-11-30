@@ -4,7 +4,7 @@ window.Helpers = {
 
     // Use Exportify application client_id if none given
     if (client_id == '') {
-      client_id = "9950ac751e34487dbbe027c4fd7f8e99"
+      client_id = "cc3d3aff368a4fe5b8f815a8c67997c9"
     }
 
     window.location = "https://accounts.spotify.com/authorize" +
@@ -265,8 +265,8 @@ var PlaylistsExporter = {
         }
 
         $(playlists).each(function(i, playlist) {
-          playlistFileNames.push(PlaylistExporter.fileName(playlist));
-          playlistExports.push(PlaylistExporter.csvData(access_token, playlist));
+          playlistFileNames.push(PlaylistExporter.fileName(playlist, 'kgl'));
+          playlistExports.push(PlaylistExporter.kglData(access_token, playlist));
         });
 
         return $.when.apply($, playlistExports);
@@ -288,13 +288,13 @@ var PlaylistsExporter = {
 // Handles exporting a single playlist as a CSV file
 var PlaylistExporter = {
   export: function(access_token, playlist) {
-    this.csvData(access_token, playlist).then(function(data) {
-      var blob = new Blob(["\uFEFF" + data], { type: "text/csv;charset=utf-8" });
-      saveAs(blob, this.fileName(playlist));
+    this.kglData(access_token, playlist).then(function(data) {
+      var blob = new Blob(["\uFEFF" + data], { type: "text/xml;charset=utf-8" });
+      saveAs(blob, this.fileName(playlist, 'kgl'));
     }.bind(this))
   },
 
-  csvData: function(access_token, playlist) {
+  _fetchData: function(access_token, playlist) {
     var requests = [];
     var limit = 100;
 
@@ -328,13 +328,17 @@ var PlaylistExporter = {
             item.track.duration_ms,
             item.added_by == null ? '' : item.added_by.uri,
             item.added_at
-          ].map(function(track) { return '"' + track + '"'; })
+          ]
         });
       });
 
       // Flatten the array of pages
-      tracks = $.map(tracks, function(n) { return n })
+      return $.map(tracks, function(n) { return n })
+    });
+  },
 
+  csvData: function(access_token, playlist) {
+    return this._fetchData(access_token, playlist).then(function(tracks) {
       tracks.unshift([
         "Spotify URI",
         "Track Name",
@@ -346,19 +350,35 @@ var PlaylistExporter = {
         "Added By",
         "Added At"
       ]);
-
-      csvContent = '';
+      // add double quotes
+      tracks = tracks.map(function(track) { return '"' + track + '"'; })
+      var csvContent = '';
       tracks.forEach(function(infoArray, index){
         dataString = infoArray.join(",");
         csvContent += index < tracks.length ? dataString+ "\n" : dataString;
       });
-
-      return csvContent;
-    });
+      return csvContent
+    })
   },
 
-  fileName: function(playlist) {
-    return playlist.name.replace(/[^a-z0-9\- ]/gi, '').replace(/[ ]/gi, '_').toLowerCase() + ".csv";
+  // Kugou Playlist Data
+  kglData: function(access_token, playlist) {
+    return this._fetchData(access_token, playlist).then(function(tracks) {
+      var xmlContent = ''
+      var listName = playlist.name.replace(/\\&/g, '&amp;');
+      xmlContent += tracks.map(function(item, index) {
+        return '<File>' +
+          '<FileName><![CDATA[' + item[2] + ' - ' + item[1] + ']]></FileName>' +
+        '</File>'
+      }).join('\n')
+      return '<?xml version="1.0" encoding="utf-8"?>' +
+        '<List ListName="' + listName + '">' + xmlContent + '</List>'
+    })
+  },
+
+  fileName: function(playlist, ext) {
+    ext = ext || 'csv'
+    return playlist.name.replace(/[^a-z0-9\- ]/gi, '').replace(/[ ]/gi, '_').toLowerCase() + '.' + ext
   }
 }
 
