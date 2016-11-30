@@ -1,7 +1,3 @@
-[![Build Status](http://img.shields.io/travis/ktmud/exportify.svg?style=flat)](https://travis-ci.org/ktmud/exportify)
-
-<a href="https://rawgit.com/ktmud/exportify/master/exportify.html"><img src="screenshot.png"/></a>
-
 ## Exportify to 163 // 导出 Spotify 歌单到网易云音乐
 
 导出 Spotify 歌单为酷狗音乐列表格式，以导入网易云音乐。
@@ -18,6 +14,8 @@
 ----
 
 ## The Original Readme of "Exportify"
+
+<a href="https://rawgit.com/ktmud/exportify/master/exportify.html"><img src="screenshot.png"/></a>
 
 Export your Spotify playlists using the Web API by clicking on the link below:
 
