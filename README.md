@@ -1,17 +1,18 @@
 ## Exportify to 163 // 导出 Spotify 歌单到网易云音乐
 
-导出 Spotify 歌单为酷狗音乐列表格式，以导入网易云音乐。
-
-本应用直接修改于 [Exportify](https://github.com/watsonbox/Exportify) 应用。
+导出 Spotify 歌单为酷狗音乐列表格式（.kgl），以便导入网易云音乐。
 
 操作说明：
 
 1. 登录并连接 Spotify
 2. 下载歌单文件
-3. 登录网页版网易云音乐（music.163.com），在右上角菜单找到「导入歌单」
+3. 登录[网页版网易云音乐](http://music.163.com)，在右上角菜单找到「[导入歌单](http://music.163.com/#/import/kugou)」
 4. 在「导入酷狗播放列表」页面上传刚才下载的歌单文件
 
 ----
+
+本应用直接修改于 [Exportify](https://github.com/watsonbox/Exportify) 开源项目。感谢原作者的辛勤付出。
+Thanks to [watsonbox](https://github.com/watsonbox/) for his awesome work.
 
 ## The Original Readme of "Exportify"
 
