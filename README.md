@@ -4,10 +4,10 @@
 
 操作说明：
 
-1. 登录并连接 Spotify
+1. 访问 [Exportify to 163](https://rawgit.com/ktmud/exportify/master/exportify.html) ，登录并连接 Spotify
 2. 下载歌单文件
 3. 登录[网页版网易云音乐](http://music.163.com)，在右上角菜单找到「[导入歌单](http://music.163.com/#/import/kugou)」
-4. 在「导入酷狗播放列表」页面上传刚才下载的歌单文件
+4. 在「导入酷狗播放列表」页面上传刚才下载的 `.kgl` 文件
 
 ----
 
